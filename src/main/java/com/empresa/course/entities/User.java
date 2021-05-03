@@ -1,13 +1,18 @@
 package com.empresa.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table (name = "tb_user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,6 +23,11 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	
+	
+	// PEDIDO UM PARA MUITOS
+	@OneToMany (mappedBy = "client") // Mapeando o client que é o atributo em Order
+	private List<Order> orders = new ArrayList<>(); 
 
 	public User() {
 	}
@@ -42,6 +52,12 @@ public class User implements Serializable {
 	public String getName() {
 		return name;
 	}
+	
+	// PEDIDO
+	public List<Order> getOrders() {
+		return orders;
+	}
+
 
 	public void setName(String name) {
 		this.name = name;

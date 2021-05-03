@@ -21,6 +21,8 @@ public class UserResource {
 	private UserService service;
 	
     
+	//ResponseEntity: tipo especifico pra retonar respostas de requisições web, é um Generic
+	
 	@GetMapping
 	public ResponseEntity<List<User>> findAll(){
 		

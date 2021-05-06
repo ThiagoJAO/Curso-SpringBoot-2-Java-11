@@ -2,6 +2,8 @@ package com.empresa.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.empresa.course.entities.enums.OrderStatus;
@@ -35,6 +38,15 @@ public class Order implements Serializable{
 	// INTEGER PRA DIZER EXPLICITAMENTE QUE ESTÁ GRAVANDO NUM BANCO DE DADOS
 	private Integer orderStatus;
 	
+// Mapeando o id.order, pq no OrderItem eu tenho o id, e o id por sua vez é quem tem o pedido
+	@OneToMany (mappedBy = "id.order")  
+	private Set <OrderItem> items = new HashSet<>(); 
+	
+	// Faz somente um set para itens pois é uma coleção 	
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
 	public Order() {
 	}
 

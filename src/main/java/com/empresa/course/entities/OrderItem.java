@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.empresa.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -15,7 +16,7 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId // ANOTAÇÃO PARA ID COMPOSTO
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -33,8 +34,24 @@ public class OrderItem implements Serializable {
 	
 	
 	// Product e Order terão get/set mesmo sem serem atributos da classe
-	// IMPORTANTE 
+	// IMPORTANTE: 
 	
+	
+	/* No pedido eu tenho pendurado nele o client que é o usuário(User) e os itens de pedido
+	 * (OrderItem), o usuário se você reparar bem aqui nós colocamos o @jsonIgnore para ele 
+	 * cortar a associação de mão dupla. Da mesma forma agora eu vou ter que vir aqui, lá no
+	 * meu OrderItem e cortar a associação com o meu order.
+	 * 
+	 * Aqui no meu OrderItem repara o seguinte, ele não tem o atributo order direto, na 
+	 * verdade ele tem o Id e o Id é quem tem a associação com o Order, só que: 
+	 * 
+	 * Na plataforma JAVA entreprise o que vale é o método GET, por que esse get order é quem
+	 * tava chamendo o Pedido(Order) associado a esse item de pedido(OrderItem), aí por sua 
+	 * vez ele chamava o item de pedido de novo e entrava num loop infinito
+	 * 
+	 */
+	
+	@JsonIgnore  
 	public Order getOrder() {
 		return id.getOrder();
 	}

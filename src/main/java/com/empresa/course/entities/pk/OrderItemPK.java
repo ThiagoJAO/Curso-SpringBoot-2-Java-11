@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import com.empresa.course.entities.Order;
 import com.empresa.course.entities.Product;
 
-@Embeddable
+@Embeddable //	CHAVE PRIMÁRIA COMPOSTA
 public class OrderItemPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 

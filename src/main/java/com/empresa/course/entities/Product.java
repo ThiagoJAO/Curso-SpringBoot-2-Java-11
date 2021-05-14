@@ -11,8 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.empresa.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name = "tb_product")
@@ -37,11 +40,37 @@ public class Product implements Serializable {
 // O Set é uma interface, não pode ser instanciada, HashSet é a classe(Exemplo List ArrayList).
 
 	
-	@ManyToMany
+	@ManyToMany // MUITOS PARA MUITOS
 	@JoinTable (name = "tb_product_category", 
 	joinColumns = @JoinColumn(name = "product_id"),
 	inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
+	
+	
+// Mapeando o id.product, pq no OrderItem eu tenho o id, e o id por sua vez é quem tem o produto
+// Coleção de OrderItens para que Product os acesse
+// ORDER_ITEM tem OrderItemPK id por sua vez ORDER_ITEMPK product	
+	@OneToMany (mappedBy = "id.product")   
+	private Set <OrderItem> items = new HashSet<>(); 
+	
+	
+// MÉTODO GET, Ele vai responder pra mim uma lista de order e não de OrderItem conforme diagrama
+// Varrer a colação de OrderIten e pegar o order associado a ele	
+	
+	@JsonIgnore
+	public Set<Order> getOrders(){ // orders: nome projetado no diagrama
+		
+		Set<Order> set = new HashSet<>();
+// Percorrendo a coleção de itens aqui de cima e para cada elemento dessa coleção que 
+// dei o nome de x eu vou adcionar no meu conjunto o x.getOrder aí eu pego o objeto order
+// associado ao objeto orderItem
+		
+		for(OrderItem x : items) {
+			set.add(x.getOrder());
+		}
+		return set;
+	}
+	
 	
 	public Product() {
 	}

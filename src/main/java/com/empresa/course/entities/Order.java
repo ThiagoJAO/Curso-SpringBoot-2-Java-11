@@ -35,18 +35,22 @@ public class Order implements Serializable{
 	private User client;
 	
 	
-	// INTEGER PRA DIZER EXPLICITAMENTE QUE ESTÁ GRAVANDO NUM BANCO DE DADOS
+// INTEGER PRA DIZER EXPLICITAMENTE QUE ESTÁ GRAVANDO NUM BANCO DE DADOS
 	private Integer orderStatus;
 	
 // Mapeando o id.order, pq no OrderItem eu tenho o id, e o id por sua vez é quem tem o pedido
+// Coleção de OrderItens para que Order os acesse
+// ORDER_ITEM tem OrderItemPK id por sua vez ORDER_ITEMPK 0 order	
 	@OneToMany (mappedBy = "id.order")  
 	private Set <OrderItem> items = new HashSet<>(); 
 	
-	// Faz somente um set para itens pois é uma coleção 	
+// Faz somente um set para itens pois é uma coleção 	
 	public Set<OrderItem> getItems() {
 		return items;
 	}
 
+
+	
 	public Order() {
 	}
 
@@ -74,7 +78,7 @@ public class Order implements Serializable{
 	}
 
 		
-	// CONVERTENDO
+	// CONVERTENDO OS ENUMS 
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}

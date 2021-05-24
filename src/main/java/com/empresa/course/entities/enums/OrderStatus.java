@@ -20,7 +20,7 @@ public enum OrderStatus {
 	}
 	
 	
-	// ESTÁTIC POR QUE VAI FUNCIONAR SEM PRECISAR INSTANCIAR
+// ESTÁTIC POR QUE VAI FUNCIONAR SEM PRECISAR INSTANCIAR
 	public static OrderStatus valueOf(int code) {
 		for(OrderStatus value : OrderStatus.values()) {
 			if(value.getCode() == code) {

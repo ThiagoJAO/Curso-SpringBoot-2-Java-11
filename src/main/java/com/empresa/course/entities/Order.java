@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.empresa.course.entities.enums.OrderStatus;
@@ -40,7 +42,7 @@ public class Order implements Serializable{
 	
 // Mapeando o id.order, pq no OrderItem eu tenho o id, e o id por sua vez é quem tem o pedido
 // Coleção de OrderItens para que Order os acesse
-// ORDER_ITEM tem OrderItemPK id por sua vez ORDER_ITEMPK 0 order	
+// ORDER_ITEM tem OrderItemPK id por sua vez ORDER_ITEMPK tem order	
 	@OneToMany (mappedBy = "id.order")  
 	private Set <OrderItem> items = new HashSet<>(); 
 	
@@ -49,7 +51,11 @@ public class Order implements Serializable{
 		return items;
 	}
 
-
+	// Atributo de Pagamento
+	// cascade = CascadeType.ALL = mapeado as entidades para terem o mesmo Id
+	// se o pedido tiver o código 5 o pagamento também vai ter o código 5
+	@OneToOne (mappedBy = "order" , cascade = CascadeType.ALL)
+	private Payment payment;
 	
 	public Order() {
 	}
@@ -96,6 +102,14 @@ public class Order implements Serializable{
 
 	public void setClient(User client) {
 		this.client = client;
+	}
+	
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 	@Override

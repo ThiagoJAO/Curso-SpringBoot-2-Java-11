@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name = "tb_payment")
@@ -26,6 +27,7 @@ public class Payment implements Serializable{
 	private Instant moment;
 	
 //Classe dependente pois um pedido pode não ter pagamento, mas todo pagamento tem order.
+	@JsonIgnore
 	@OneToOne
 	@MapsId 
 	private Order order;
